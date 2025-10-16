@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locography - Personal Inventory Manager</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗺️ Locography</h1>
+            <p class="subtitle">AI-Powered Personal Inventory Manager</p>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" data-tab="items">Items</button>
+            <button class="tab" data-tab="locations">Locations</button>
+            <button class="tab" data-tab="categories">Categories</button>
+            <button class="tab" data-tab="search">Search</button>
+        </nav>
+
+        <main>
+            <!-- Items Tab -->
+            <section id="items-tab" class="tab-content active">
+                <div class="actions">
+                    <button id="add-item-btn" class="btn btn-primary">+ Add Item</button>
+                    <input type="text" id="items-search" placeholder="Search items..." class="search-input">
+                </div>
+                <div id="items-list" class="items-grid"></div>
+            </section>
+
+            <!-- Locations Tab -->
+            <section id="locations-tab" class="tab-content">
+                <div class="actions">
+                    <button id="add-location-btn" class="btn btn-primary">+ Add Location</button>
+                </div>
+                <div id="locations-list" class="locations-grid"></div>
+            </section>
+
+            <!-- Categories Tab -->
+            <section id="categories-tab" class="tab-content">
+                <div class="actions">
+                    <button id="add-category-btn" class="btn btn-primary">+ Add Category</button>
+                </div>
+                <div id="categories-list" class="categories-list"></div>
+            </section>
+
+            <!-- Search Tab -->
+            <section id="search-tab" class="tab-content">
+                <div class="search-section">
+                    <h2>Text Search</h2>
+                    <input type="text" id="text-search" placeholder="Search for items..." class="search-input">
+                    <button id="text-search-btn" class="btn btn-primary">Search</button>
+                </div>
+                
+                <div class="search-section">
+                    <h2>Image Search</h2>
+                    <input type="file" id="image-search-input" accept="image/*" class="file-input">
+                    <button id="image-search-btn" class="btn btn-primary">Search by Image</button>
+                </div>
+
+                <div id="search-results" class="items-grid"></div>
+            </section>
+        </main>
+
+        <!-- Modal for Add/Edit Item -->
+        <div id="item-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add Item</h2>
+                <form id="item-form">
+                    <label>Name*</label>
+                    <input type="text" id="item-name" required>
+                    
+                    <label>Description</label>
+                    <textarea id="item-description" rows="3"></textarea>
+                    
+                    <label>Category</label>
+                    <select id="item-category"></select>
+                    
+                    <label>Location</label>
+                    <select id="item-location"></select>
+                    
+                    <label>Quantity</label>
+                    <input type="number" id="item-quantity" value="1" min="1">
+                    
+                    <label>Unit</label>
+                    <input type="text" id="item-unit" placeholder="e.g., pieces, kg">
+                    
+                    <label>Estimated Value</label>
+                    <input type="number" id="item-value" step="0.01" min="0">
+                    
+                    <label>Tags (comma-separated)</label>
+                    <input type="text" id="item-tags" placeholder="electronics, tools, etc.">
+                    
+                    <label>Upload Image</label>
+                    <input type="file" id="item-image" accept="image/*">
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-item">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Add Location -->
+        <div id="location-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add Location</h2>
+                <form id="location-form">
+                    <label>Name*</label>
+                    <input type="text" id="location-name" required>
+                    
+                    <label>Description</label>
+                    <textarea id="location-description" rows="3"></textarea>
+                    
+                    <label>Type</label>
+                    <select id="location-type">
+                        <option value="">Select type</option>
+                        <option value="room">Room</option>
+                        <option value="container">Container</option>
+                        <option value="shelf">Shelf</option>
+                        <option value="drawer">Drawer</option>
+                        <option value="cabinet">Cabinet</option>
+                    </select>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-location">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Add Category -->
+        <div id="category-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Add Category</h2>
+                <form id="category-form">
+                    <label>Name*</label>
+                    <input type="text" id="category-name" required>
+                    
+                    <label>Description</label>
+                    <textarea id="category-description" rows="3"></textarea>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-category">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
