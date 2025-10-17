@@ -16,10 +16,13 @@ class Settings(BaseSettings):
     port: int = 8000
     api_prefix: str = "/api/v1"
 
-    # LLM Integration
-    llm_api_url: Optional[str] = "http://localhost:11434"
-    llm_model: str = "llava"
+    # LLM Integration - LM Studio with OpenAI-compatible API
+    llm_api_url: Optional[str] = "http://localhost:1234/v1"
+    llm_model: str = "mistralai/magistral-small-2509"
+    llm_api_key: Optional[str] = "lm-studio"  # LM Studio doesn't require real key
     enable_llm: bool = True
+    llm_temperature: float = 0.7
+    llm_max_tokens: int = 2000
 
     # Upload settings
     max_upload_size: int = 10485760  # 10MB

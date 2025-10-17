@@ -15,7 +15,7 @@ A personal inventory manager app with AI-powered cataloging and smart search cap
 ### Technology Stack
 - **Backend**: FastAPI (Python async web framework)
 - **Database**: SQLite with SQLAlchemy ORM (async)
-- **AI Integration**: Local LLM support (Ollama/llava) for vision and text generation
+- **AI Integration**: Local LLM support via LM Studio (OpenAI-compatible API) with vision and reasoning models
 - **Image Processing**: PIL/OpenCV for image analysis and feature extraction
 - **Search**: Vector embeddings for similarity search
 - **Frontend**: Vanilla JavaScript with modern CSS
@@ -24,7 +24,7 @@ A personal inventory manager app with AI-powered cataloging and smart search cap
 
 ### Prerequisites
 - Python 3.9 or higher
-- (Optional) Ollama with llava model for AI features
+- (Optional) LM Studio with a vision-language model for AI features
 
 ### Quick Start
 
@@ -66,9 +66,10 @@ Edit `.env` file to customize settings:
 # Database
 DATABASE_URL=sqlite+aiosqlite:///./locography.db
 
-# LLM Integration (optional)
-LLM_API_URL=http://localhost:11434
-LLM_MODEL=llava
+# LLM Integration (optional - using LM Studio)
+LLM_API_URL=http://localhost:1234/v1
+LLM_MODEL=mistralai/magistral-small-2509
+LLM_API_KEY=lm-studio
 ENABLE_LLM=true
 
 # Application
@@ -81,25 +82,45 @@ MAX_UPLOAD_SIZE=10485760
 UPLOAD_DIR=./uploads
 ```
 
+### Supported Vision-Language Models
+
+The system is configured to work with LM Studio and supports multiple vision-language models:
+
+- **mistralai/magistral-small-2509** (Default) - Magistral Small 24B reasoning model with image input and tool calling support
+- **google/gemma-3-12b** - Google's Gemma model with vision capabilities
+- **qwen/qwen3-vl-30b** - Qwen's vision-language model with tool use support
+
+You can experiment with different models to optimize performance for your use case.
+
 ## LLM Setup (Optional)
 
-To enable AI-powered cataloging:
+To enable AI-powered cataloging with LM Studio:
 
-1. **Install Ollama**
-```bash
-# Visit https://ollama.ai for installation instructions
-curl -fsSL https://ollama.ai/install.sh | sh
-```
+1. **Install LM Studio**
+   - Download from [https://lmstudio.ai](https://lmstudio.ai)
+   - Install and launch the application
 
-2. **Download vision model**
-```bash
-ollama pull llava
-```
+2. **Download a vision-language model**
+   - Open LM Studio
+   - Navigate to the "Discover" tab
+   - Search and download one of the supported models:
+     - `mistralai/magistral-small-2509` (Recommended - 24B with reasoning)
+     - `google/gemma-3-12b`
+     - `qwen/qwen3-vl-30b`
 
-3. **Start Ollama service**
-```bash
-ollama serve
-```
+3. **Start the local server**
+   - In LM Studio, go to the "Local Server" tab
+   - Select your downloaded model
+   - Click "Start Server"
+   - The default endpoint is `http://localhost:1234/v1`
+
+4. **Configure Locography**
+   - Update `.env` file with your model choice:
+     ```env
+     LLM_API_URL=http://localhost:1234/v1
+     LLM_MODEL=mistralai/magistral-small-2509
+     LLM_API_KEY=lm-studio
+     ```
 
 The application will automatically use the LLM for:
 - Analyzing uploaded images
